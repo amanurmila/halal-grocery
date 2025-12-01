@@ -7,10 +7,13 @@ const CartWishlistContext = createContext();
 
 export function CartWishlistProvider({ children }) {
   const { data: session } = useSession();
-  const [cartLength, setCartLength] = useState(0);
+  const [cartItems, setCartItems] = useState([]); // ✅ new
   const [wishlistLength, setWishlistLength] = useState(0);
 
-  // Fetch on login
+  // Derived cart length
+  const cartLength = cartItems?.length || 0;
+
+  // ✅ Fetch when user logged in
   useEffect(() => {
     if (session?.user?.email) {
       fetchCart(session.user.email);
@@ -18,16 +21,23 @@ export function CartWishlistProvider({ children }) {
     }
   }, [session]);
 
+  // 🔹 Fetch Cart
   async function fetchCart(userEmail) {
     try {
       const res = await fetch(`/api/cart?userEmail=${userEmail}`);
       const data = await res.json();
-      if (data.success) setCartLength(data.cart.items?.length || 0);
+      if (data.success && data.cart?.items) {
+        setCartItems(data.cart.items);
+      } else {
+        setCartItems([]);
+      }
     } catch (err) {
       console.error("Error fetching cart:", err);
+      setCartItems([]);
     }
   }
 
+  // 🔹 Fetch Wishlist
   async function fetchWishlist(userEmail) {
     try {
       const res = await fetch(`/api/wishlist?userEmail=${userEmail}`);
@@ -38,20 +48,43 @@ export function CartWishlistProvider({ children }) {
     }
   }
 
-  // New: Increment / decrement without refetch
+  // 🔹 Wishlist Actions
   const addToWishlist = () => setWishlistLength((prev) => prev + 1);
   const removeFromWishlist = () =>
     setWishlistLength((prev) => (prev > 0 ? prev - 1 : 0));
 
+  // ✅ Clear Cart (after payment success)
+  const clearCart = async () => {
+    setCartItems([]); // clear frontend immediately
+
+    if (session?.user?.email) {
+      try {
+        const res = await fetch("/api/cart/clear", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userEmail: session.user.email }),
+        });
+        const data = await res.json();
+        if (!data.success) {
+          console.error("Cart clear failed:", data.message);
+        }
+      } catch (err) {
+        console.error("Error clearing cart:", err);
+      }
+    }
+  };
+
   return (
     <CartWishlistContext.Provider
       value={{
+        cartItems, // ✅ added
         cartLength,
         wishlistLength,
         fetchCart,
         fetchWishlist,
         addToWishlist,
         removeFromWishlist,
+        clearCart,
       }}
     >
       {children}

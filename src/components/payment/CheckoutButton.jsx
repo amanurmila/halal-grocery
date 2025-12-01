@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Swal from "sweetalert2";
 
-export default function CheckoutButton() {
+export default function CheckoutButton({ amount }) {
   const router = useRouter();
 
   const handleCheckout = async () => {
     try {
+      // ✅ Check user authentication and profile completeness
       const res = await fetch("/api/check-profile");
       const data = await res.json();
 
@@ -18,7 +19,8 @@ export default function CheckoutButton() {
       }
 
       if (data.isComplete) {
-        router.push("/checkout");
+        // ✅ Redirect to checkout page with total amount
+        router.push(`/checkout?amount=${amount}`);
       } else {
         Swal.fire({
           title: "Profile incomplete",

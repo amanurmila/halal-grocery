@@ -53,7 +53,7 @@ export default function ProfilePage() {
 
       if (data.success) {
         Swal.fire("Updated", "Profile updated successfully!", "success").then(
-          () => router.push("/checkout")
+          () => router.push("/cart")
         );
       } else {
         Swal.fire("Error", data.message || "Update failed.", "error");

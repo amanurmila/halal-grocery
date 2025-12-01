@@ -218,7 +218,7 @@ export default function CartPage() {
           Totals:{" "}
           <span className="text-[#EC5228]">${totalPrice.toFixed(2)}</span>
         </h2>
-        <CheckoutButton />
+        <CheckoutButton amount={totalPrice.toFixed(2)} />
       </div>
     </div>
   );
