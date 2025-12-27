@@ -60,42 +60,45 @@ export default function CheckoutPageClient() {
       );
       return;
     }
+
     if (!cartItems?.length) {
-      Swal.fire(
-        "Empty Cart",
-        "Please add items to cart before checkout.",
-        "warning"
-      );
+      Swal.fire("Empty Cart", "Add items before checkout.", "warning");
       return;
     }
 
     setLoading(true);
+
     try {
-      const res = await fetch("/api/sslcommerz/init", {
+      const payment = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        amount: form.amount,
+        cartItems,
+        status: "pending",
+      };
+
+      const response = await fetch("/api/create-ssl-payment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          products: cartItems.map((item) => ({
-            _id: item._id,
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            subtotal: item.price * item.quantity,
-          })),
-        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payment),
       });
 
-      const data = await res.json();
+      const result = await response.json();
+      console.log(result);
 
-      if (data?.GatewayPageURL) {
-        window.location.href = data.GatewayPageURL;
-      } else {
-        Swal.fire("Error", "Failed to initialize payment session.", "error");
+      if (result.success && result.url) {
+        window.location.href = result.url; // 🔥 redirect works now
+        return;
       }
+
+      Swal.fire("Error", "Failed to initiate payment.", "error");
     } catch (err) {
-      console.error("Payment init error:", err);
-      Swal.fire("Error", "Something went wrong. Please try again.", "error");
+      console.error(err);
+      Swal.fire("Error", "Something went wrong.", "error");
     } finally {
       setLoading(false);
     }

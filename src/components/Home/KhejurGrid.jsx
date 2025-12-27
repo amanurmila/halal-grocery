@@ -5,6 +5,7 @@ import { Parallax } from "react-parallax";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { FaTag } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import ProductActions from "@/components/Cart/ProductActions";
@@ -58,14 +59,41 @@ export default function KhejurGrid({ category = "Khejur", limit = 8 }) {
 
   if (loading)
     return (
-      <div className="flex flex-col items-center justify-center py-24 space-y-6">
-        {/* Spinner */}
-        <Loader2 className="w-12 h-12 text-primary animate-spin" />
+      <div className="mt-6 md:mt-10 max-w-6xl mx-auto my-5 px-4 sm:px-6 lg:px-8">
+        {/* Header Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
+          <Skeleton className="h-10 w-64 md:w-80" />
+          <div className="flex items-center gap-3 mt-4 sm:mt-0">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-8 w-24 rounded-full" />
+          </div>
+        </div>
 
-        {/* Loading Text */}
-        <p className="text-lg text-muted-foreground font-medium tracking-wide">
-          Loading Khejur products…
-        </p>
+        {/* Product Grid Skeleton */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-8">
+          {[...Array(limit)].map((_, i) => (
+            <div
+              key={i}
+              className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50"
+            >
+              <Skeleton className="aspect-video w-full rounded-none" />
+              <div className="p-5 space-y-3">
+                <Skeleton className="h-5 w-3/4" />
+                <div className="space-y-2">
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-5/6" />
+                </div>
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-3 w-10" />
+                  </div>
+                  <Skeleton className="h-8 w-14 rounded-md" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
 
