@@ -88,7 +88,6 @@ export default function CheckoutPageClient() {
       });
 
       const result = await response.json();
-      console.log(result);
 
       if (result.success && result.url) {
         window.location.href = result.url; // 🔥 redirect works now

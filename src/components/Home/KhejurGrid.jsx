@@ -59,7 +59,7 @@ export default function KhejurGrid({ category = "Khejur", limit = 8 }) {
 
   if (loading)
     return (
-      <div className="mt-6 md:mt-10 max-w-6xl mx-auto my-5 px-4 sm:px-6 lg:px-8">
+      <div className="mt-6 md:mt-10 max-w-7xl mx-auto my-5 px-4 sm:px-6 lg:px-8">
         {/* Header Skeleton */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
           <Skeleton className="h-10 w-64 md:w-80" />
@@ -110,11 +110,11 @@ export default function KhejurGrid({ category = "Khejur", limit = 8 }) {
       bgImage="/Images/Home/khejur.jpg"
       bgImageAlt="Ator Collection"
       strength={300}
-      className="bg-fixed mt-6 md:mt-10 max-w-6xl mx-auto my-5 rounded-md bg-cover bg-center"
+      className="bg-fixed mt-6 md:mt-10 max-w-7xl mx-auto my-5 rounded-md bg-cover bg-center"
     >
       <div className="relative py-20">
         <div className="absolute inset-0 bg-black/40 dark:bg-black/60" />
-        <section className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-10">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white dark:text-gray-100 drop-shadow-lg mb-3 sm:mb-0">
               Premium Khejur Collection

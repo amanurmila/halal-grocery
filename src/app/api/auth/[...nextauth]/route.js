@@ -1,9 +1,13 @@
 export const runtime = "nodejs";
 
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuthModule from "next-auth";
+import GoogleModule from "next-auth/providers/google";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
+
+// ✅ Handle ESM/CommonJS compatibility
+const NextAuth = NextAuthModule.default || NextAuthModule;
+const GoogleProvider = GoogleModule.default || GoogleModule;
 
 export const authOptions = {
   providers: [
@@ -14,12 +18,15 @@ export const authOptions = {
   ],
 
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+  },
 
   callbacks: {
-    // ✅ When a user signs in
+    // 🔐 On sign in
     async signIn({ user }) {
       await dbConnect();
+
       const existingUser = await User.findOne({ email: user.email });
 
       if (!existingUser) {
@@ -31,31 +38,35 @@ export const authOptions = {
           isBlocked: false,
         });
       }
+
       return true;
     },
 
-    // ✅ Add custom data to JWT token
+    // 🔑 JWT callback
     async jwt({ token, user }) {
       await dbConnect();
-      const dbUser = await User.findOne({ email: token.email || user?.email });
+
+      const dbUser = await User.findOne({
+        email: token.email || user?.email,
+      });
 
       if (dbUser) {
         token.id = dbUser._id.toString();
         token.role = dbUser.role;
         token.picture = dbUser.image;
-        token.isBlocked = dbUser.isBlocked; // ✅ FIXED: include isBlocked here
+        token.isBlocked = dbUser.isBlocked;
       }
 
       return token;
     },
 
-    // ✅ Attach all custom fields to the session
+    // 🧠 Session callback
     async session({ session, token }) {
       if (token?.id) {
         session.user.id = token.id;
         session.user.role = token.role;
         session.user.image = token.picture;
-        session.user.isBlocked = token.isBlocked; // ✅ FIXED: now available on frontend
+        session.user.isBlocked = token.isBlocked;
       }
       return session;
     },

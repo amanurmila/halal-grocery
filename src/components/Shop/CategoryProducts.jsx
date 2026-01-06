@@ -21,9 +21,6 @@ export default function CategoryProducts({ products = [] }) {
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 500);
 
-    const section = document.getElementById("product-section");
-    if (section) section.scrollIntoView({ behavior: "smooth" });
-
     return () => clearTimeout(timer);
   }, [currentPage, products]);
 
@@ -75,10 +72,8 @@ export default function CategoryProducts({ products = [] }) {
                       ${product.price}
                     </span>
                     <span
-                      className={`text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-md ${
-                        product.isInStock
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                      className={`md:text-[10px] text-[6px] uppercase tracking-widest font-bold  ${
+                        product.isInStock ? " text-green-700" : " text-red-700"
                       }`}
                     >
                       {product.isInStock ? "In Stock" : "Sold Out"}

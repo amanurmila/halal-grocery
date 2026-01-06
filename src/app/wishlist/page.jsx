@@ -125,13 +125,13 @@ export default function WishlistPage() {
 
   if (loading)
     return (
-      <div className="max-w-6xl mx-auto py-12 text-center text-gray-600">
+      <div className="max-w-7xl mx-auto py-12 text-center text-gray-600">
         Loading wishlist...
       </div>
     );
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
+    <div className="max-w-7xl mx-auto py-12 px-4">
       <h1 className="text-3xl font-bold mb-8 ">My Wishlist</h1>
 
       {wishlist.length === 0 ? (

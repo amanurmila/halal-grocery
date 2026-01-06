@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Leaf, Droplets, Sun, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 const AboutUs = () => {
   const features = [
@@ -30,7 +31,7 @@ const AboutUs = () => {
 
   return (
     <section className="relative py-10 overflow-hidden bg-zinc-50 dark:bg-zinc-950">
-      <div className="container mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side: Fancy Image Grid */}
           <div className="relative group">
@@ -121,9 +122,11 @@ const AboutUs = () => {
             </div>
 
             <div className="pt-4">
-              <Button className="bg-[#EC5228] hover:bg-[#d9431c] text-white px-8 py-6 rounded-full text-lg shadow-lg shadow-orange-200 dark:shadow-none transition-all hover:scale-105">
-                Learn Our Story
-              </Button>
+              <Link href="/shop">
+                <Button className="bg-[#EC5228] hover:bg-[#d9431c] text-white px-8 py-6 rounded-full text-lg shadow-lg shadow-orange-200 dark:shadow-none transition-all hover:scale-105">
+                  View Our Products
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

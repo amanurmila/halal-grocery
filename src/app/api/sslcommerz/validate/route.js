@@ -4,7 +4,6 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   try {
     const paymentData = await req.json();
-    console.log("Callback Received:", paymentData);
 
     const transactionId = paymentData?.tran_id || paymentData?.tranId;
 
@@ -32,8 +31,6 @@ export async function POST(req) {
       `/payment/success?tran_id=${transactionId}`,
       baseURL
     );
-
-    console.log("✅ Redirecting to:", redirectURL.toString());
 
     return NextResponse.redirect(redirectURL);
   } catch (error) {

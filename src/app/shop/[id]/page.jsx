@@ -4,10 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductActions from "@/components/Cart/ProductActions";
 import ProductImageViewer from "@/components/Shop/ProductImageViewer";
+import mongoose from "mongoose";
+
+// ✅ Get product from DB safely
 async function getProduct(id) {
   await dbConnect();
+
+  // Check if the ID is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    console.log("Invalid ObjectId:", id);
+    return null;
+  }
+
   const product = await Product.findById(id).lean();
-  if (!product) return null;
+  if (!product) {
+    console.log("Product not found for ID:", id);
+    return null;
+  }
 
   return {
     _id: product._id.toString(),
@@ -28,7 +41,7 @@ async function getProduct(id) {
 }
 
 export default async function ProductPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
   const product = await getProduct(id);
 
   if (!product) {
@@ -47,12 +60,12 @@ export default async function ProductPage({ params }) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
+    <div className="max-w-7xl mx-auto py-12 px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        {/* Product Image */}
         <div>
           <div className="w-full bg-gray-100 rounded-lg overflow-hidden relative group">
             <div className="relative w-full h-[420px] cursor-pointer">
-              {/* ✅ Added full-screen viewer trigger */}
               <ProductImageViewer
                 imageUrl={product.imageUrl || "/placeholder.png"}
               />
@@ -60,6 +73,7 @@ export default async function ProductPage({ params }) {
           </div>
         </div>
 
+        {/* Product Info */}
         <div>
           <h1 className="text-2xl font-semibold">{product.productName}</h1>
           <p className="text-sm text-gray-500 mt-1">{product.brand}</p>
@@ -120,13 +134,15 @@ export default async function ProductPage({ params }) {
   );
 }
 
-// Related Products
+// ✅ Related Products Component
 async function RelatedProducts({ category, currentId }) {
   if (!category) return null;
+
   await dbConnect();
   const related = await Product.find({ category, _id: { $ne: currentId } })
     .limit(4)
     .lean();
+
   if (!related.length) return null;
 
   const relatedPlain = related.map((p) => ({

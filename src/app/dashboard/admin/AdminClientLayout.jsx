@@ -13,6 +13,11 @@ const routes = [
     href: "/dashboard/admin/manage-product",
     icon: Grid,
   },
+  {
+    name: "Chat",
+    href: "/dashboard/admin/chat",
+    icon: Users,
+  },
   { name: "Users", href: "/dashboard/admin/users", icon: Users },
   { name: "Analytics", href: "/dashboard/admin/analytics", icon: BarChart2 },
   { name: "Settings", href: "/dashboard/admin/settings", icon: Settings },

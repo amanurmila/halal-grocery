@@ -10,7 +10,7 @@ import { HiOutlineShoppingCart } from "react-icons/hi";
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen w-full max-w-6xl mx-auto">
+    <div className="min-h-screen w-full max-w-7xl mx-auto">
       {/* HERO */}
       <header className="">
         <div className="container mx-auto px-6 py-16 lg:py-28">
@@ -132,7 +132,7 @@ export default function AboutUs() {
                 href="/learn-more"
                 className="rounded-md bg-orange-600 px-5 py-2 text-white font-medium shadow hover:bg-orange-700 transition"
               >
-                Learn More
+                Buy Products
               </a>
 
               <a
@@ -250,10 +250,10 @@ export default function AboutUs() {
               Shop Now
             </a>
             <a
-              href="/signup"
+              href="/contact"
               className="rounded-md border border-white/40 px-4 py-2"
             >
-              Get Started
+              Send Order
             </a>
           </div>
         </div>

@@ -47,7 +47,7 @@ export default async function ShopHome() {
   const products = Object.fromEntries(productsData);
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       {/* Fancy Header */}
       <div className="text-center mb-10 space-y-2">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">

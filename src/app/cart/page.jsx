@@ -43,8 +43,7 @@ export default function CartPage() {
 
   // 🔹 Update quantity (increase/decrease)
   const updateQuantity = async (productId, type) => {
-    const idToSend = productId?._id || productId; // ✅ ensure ID is string
-    console.log("Updating quantity:", { idToSend, type });
+    const idToSend = productId?._id || productId;
 
     try {
       const res = await fetch("/api/cart/update", {
@@ -57,7 +56,6 @@ export default function CartPage() {
         }),
       });
       const data = await res.json();
-      console.log("Cart update response:", data);
 
       if (data.success) {
         setCart(data.cart);
@@ -118,14 +116,14 @@ export default function CartPage() {
 
   if (loading)
     return (
-      <div className="max-w-6xl mx-auto py-12 text-center text-gray-600">
+      <div className="max-w-7xl mx-auto py-12 text-center text-gray-600">
         Loading cart...
       </div>
     );
 
   if (!cart || cart.items.length === 0)
     return (
-      <div className="max-w-6xl mx-auto py-12 text-center text-gray-600">
+      <div className="max-w-7xl mx-auto py-12 text-center text-gray-600">
         <p>Your cart is empty.</p>
         <Link href="/shop">
           <Button className="mt-4 bg-[#EC5228] hover:bg-[#d94821] text-white">
@@ -142,8 +140,8 @@ export default function CartPage() {
   );
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-[#3E3F5B]">My Cart</h1>
+    <div className="max-w-7xl mx-auto py-12 px-4">
+      <h1 className="text-3xl md:text-4xl font-bold mb-8">My Cart</h1>
 
       <div className="overflow-x-auto rounded-lg shadow-md border">
         <table className="w-full border-collapse text-sm text-left">
